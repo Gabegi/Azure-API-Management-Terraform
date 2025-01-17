@@ -30,48 +30,38 @@ resource "azurerm_api_management_api_operation" "mock_operation" {
 
     representation {
       content_type = "application/json"
-    #   example      = {jsonencode({
-    #     id    = "12345",
-    #     name  = "John Doe",
-    #     email = "john.doe@example.com"
-    #   })
     }
 
     }
 }
 
-# resource "azurerm_api_management_api_operation" "example_operation" {
-#   operation_id        = "getUser"
-#   api_name            = azurerm_api_management_api.mock_api.name
-#   api_management_name = azurerm_api_management.apim.name
-#   resource_group_name = azurerm_resource_group.rg.name
-#   display_name        = "Get User"
-#   method              = "GET"
-#   url_template        = "/users/{userId}"
-  
-#   response {
-#     status_code = 200
-#     description = "Successful response with user details."
-#     header {
-#       name  = "Content-Type"
-#       required = true
-#       type = "application/json"
-#     }
-#     representation {
-#       content_type = "application/json"
-      
-#     #   example {
-#     #     name = "example"
-#     #     summary     = "Example of a user response"
-#     #     description = "A sample response with user details."
-#     #     value       = <<JSON
-#     #                     {
-#     #                     "id": "12345",
-#     #                     "name": "John Doe",
-#     #                     "email": "john.doe@example.com"
-#     #                     }
-#     #                     JSON
-#     #                         }
-#     }
-#   }
-# }
+resource "azurerm_api_management_api_policy" "mock_policy" {
+  api_name              = azurerm_api_management_api.mock_api.name
+  api_management_name   = azurerm_api_management.apim.name
+  resource_group_name   = azurerm_resource_group.rg.name
+
+    xml_content = <<XML
+<policies>
+    <inbound>
+        <base />
+        <return-response>
+            <set-status code="200" reason="OK" />
+            <set-header name="Content-Type" exists-action="override">
+                <value>application/json</value>
+            </set-header>
+            <set-body>
+                {
+                  "message": "it works"
+                }
+            </set-body>
+        </return-response>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+</policies>
+XML
+}
