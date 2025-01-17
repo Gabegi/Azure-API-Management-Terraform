@@ -6,4 +6,8 @@ resource "azurerm_api_management" "apim" {
   publisher_email     = "company@terraform.io"
 
   sku_name = "Consumption_0"
+
+  identity {
+    type = "SystemAssigned"
+  }
 }

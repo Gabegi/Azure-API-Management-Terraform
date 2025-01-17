@@ -18,3 +18,5 @@ resource "azurerm_resource_group" "rg" {
   name     = "apim-rg"
   location = "West Europe"
 }
+
+data "azurerm_client_config" "current" {}
