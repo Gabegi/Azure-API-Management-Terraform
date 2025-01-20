@@ -23,9 +23,10 @@ resource "azurerm_key_vault_secret" "example_secret" {
 resource "azurerm_key_vault_access_policy" "access_policy_apim" {
   key_vault_id = azurerm_key_vault.kv.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id = data.azurerm_user_assigned_identity.apim_identity
-
+  object_id     = azurerm_api_management.apim.identity[0].principal_id
   secret_permissions = ["Get", "Set"]
+
+  depends_on = [azurerm_api_management.apim]
 }
 
 // adding myself to read and create secrets
