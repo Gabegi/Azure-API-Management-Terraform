@@ -5,12 +5,12 @@ resource "azurerm_api_management_backend" "backend" {
   name                = "backend-func"
   protocol            = "http"
   url                 = "https://omg-what-an-app.azurewebsites.net"
-  description         = "Backend Application hosting Datawarehouse TimeXtender APIs omg-what-an-app"
-#    resource_id = azurerm_windows_function_app.app.id // Logic Apps, Function Apps or API Apps
-
-credentials {
-  header = azurerm_api_management_named_value.nv-kv-api-key.value_from_key_vault
-}
+  description         = "Backend Application hosting APIs from omg-what-an-app"
+  credentials {
+    header = {
+      x-functions-key = azurerm_api_management_named_value.nv-kv-api-key.value
+    }
+  }
 
   depends_on = [ azurerm_windows_function_app.app ]
 }
