@@ -9,3 +9,9 @@ variable "test-api-json" {
   description = "JSON format test api spec"
   default = "https://raw.githubusercontent.com/hashicorp/terraform-provider-azurerm/refs/heads/main/internal/services/apimanagement/testdata/api_management_api_schema_swagger.json"
 }
+
+variable "api-key" {
+  type = string
+  description = "A secret api key"
+  default = "whatever"
+}
