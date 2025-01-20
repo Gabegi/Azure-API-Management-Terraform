@@ -20,3 +20,10 @@ resource "azurerm_resource_group" "rg" {
 }
 
 data "azurerm_client_config" "current" {}
+
+data "azurerm_user_assigned_identity" "apim_identity" {
+  name                = azurerm_api_management.apim.name
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+
