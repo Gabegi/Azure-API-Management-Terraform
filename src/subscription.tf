@@ -4,9 +4,10 @@ resource "azurerm_api_management_subscription" "sub" {
 
   display_name        = "Example API Sub"
   api_id = azurerm_api_management_api.api1.id
-
   state = "active"
-  allow_tracing = false
+
+  # default true
+  allow_tracing = true
 }
 
 resource "azurerm_api_management_subscription" "product_sub" {
@@ -14,7 +15,8 @@ resource "azurerm_api_management_subscription" "product_sub" {
   resource_group_name = azurerm_resource_group.rg.name
   display_name        = "Product Example Subscription"
   product_id          = azurerm_api_management_product.product.id
-  
   state               = "active"
-  allow_tracing = false
+
+  # default true
+  allow_tracing       = true
 }
