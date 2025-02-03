@@ -35,6 +35,7 @@ resource "azurerm_api_management_api" "api1_rev2" {
     content_format = "openapi"
     content_value  = file("./api_specs/api1_v2.yaml")  # Updated API spec for revision 2
   }
+  depends_on = [ azurerm_api_management_api.api1 ]
 }
 
 
