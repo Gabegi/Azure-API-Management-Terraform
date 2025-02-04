@@ -29,13 +29,12 @@ resource "azurerm_api_management_api" "api1_rev2" {
 
   # Keep the same version set and version
   version_set_id      = azurerm_api_management_api_version_set.example_version_set.id
-  version             = "v1"
+  version             = "v2"
 
   import {
     content_format = "openapi"
     content_value  = file("./api_specs/api1_v2.yaml")  # Updated API spec for revision 2
   }
-  depends_on = [ azurerm_api_management_api.api1 ]
 }
 
 
