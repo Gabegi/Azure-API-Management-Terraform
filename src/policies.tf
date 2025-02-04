@@ -5,3 +5,11 @@ resource "azurerm_api_management_api_policy" "policy" {
 
   xml_content = file("./policies/policy1.xml")
 }
+
+
+resource "azurerm_api_management_policy_fragment" "fragment" {
+  api_management_id = azurerm_api_management.apim.id
+  name              = "example-policy-fragment"
+  format            = "xml"
+  value             = file("./policies/fragment.xml")
+}

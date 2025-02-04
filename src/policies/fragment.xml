@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policy-fragment>
+    <rate-limit-by-key calls="10" renewal-period="60" counter-key="@(context.Subscription.Key)" />
+</policy-fragment>
