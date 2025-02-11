@@ -1,0 +1,65 @@
+<policies>
+    <inbound>
+        <!-- IP Whitelisting -->
+        <choose>
+            <when condition="@(context.Request.IpAddress == '203.0.113.5' || context.Request.IpAddress == '198.51.100.10')">
+                <!-- Allow access for whitelisted IPs -->
+                <set-variable name="whitelist" value="true" />
+            </when>
+            <otherwise>
+                <!-- Deny access for non-whitelisted IPs -->
+                <set-variable name="whitelist" value="false" />
+            </otherwise>
+        </choose>
+
+        <!-- IP Blacklisting -->
+        <choose>
+            <when condition="@(context.Request.IpAddress == '192.0.2.5' || context.Request.IpAddress == '203.0.113.20')">
+                <!-- Block access for blacklisted IPs -->
+                <set-variable name="blacklist" value="true" />
+            </when>
+            <otherwise>
+                <!-- No action needed for non-blacklisted IPs -->
+                <set-variable name="blacklist" value="false" />
+            </otherwise>
+        </choose>
+
+        <!-- Final Decision -->
+        <choose>
+            <when condition="@(context.Variables["whitelist"] == 'false' && context.Variables["blacklist"] == 'false')">
+                <!-- Allow the request if not blacklisted and not whitelisted -->
+                <set-variable name="accessAllowed" value="true" />
+            </when>
+            <when condition="@(context.Variables["whitelist"] == 'true')">
+                <!-- Allow request from whitelisted IPs -->
+                <set-variable name="accessAllowed" value="true" />
+            </when>
+            <when condition="@(context.Variables["blacklist"] == 'true')">
+                <!-- Reject request from blacklisted IPs -->
+                <set-variable name="accessAllowed" value="false" />
+            </when>
+        </choose>
+
+        <choose>
+            <when condition="@(context.Variables["accessAllowed"] == 'false')">
+                <!-- Reject the request if not allowed -->
+                <return-response>
+                    <set-status code="403" reason="Forbidden" />
+                    <set-body>
+                        <content>
+                            Your IP address is not allowed to access this resource.
+                        </content>
+                    </set-body>
+                </return-response>
+            </when>
+        </choose>
+    </inbound>
+
+    <outbound>
+        <!-- Outbound policy logic goes here if needed -->
+    </outbound>
+
+    <on-error>
+        <!-- Handle errors, if needed -->
+    </on-error>
+</policies>
