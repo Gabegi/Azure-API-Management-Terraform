@@ -1,0 +1,40 @@
+<policies>
+    <inbound>
+        <!-- Enable Application Insights Telemetry for incoming requests -->
+        <log-to-eventhub logger-id="application-insights-logger">
+            <properties>
+                <property name="request-id" value="@{context.Request.Id}" />
+                <property name="api-name" value="@{context.Api.Name}" />
+                <property name="api-version" value="@{context.Api.ApiVersion}" />
+                <property name="operation-name" value="@{context.Operation.Name}" />
+                <property name="method" value="@{context.Request.Method}" />
+                <property name="request-path" value="@{context.Request.Url.Path}" />
+            </properties>
+        </log-to-eventhub>
+
+        <!-- Track API Analytics -->
+        <set-variable name="startTime" value="@(DateTime.UtcNow)" />
+    </inbound>
+
+    <outbound>
+        <!-- Log API performance and response time to Application Insights -->
+        <log-to-eventhub logger-id="application-insights-logger">
+            <properties>
+                <property name="response-time" value="@{(DateTime.UtcNow - context.Variables["startTime"]).TotalMilliseconds}" />
+                <property name="status-code" value="@{context.Response.StatusCode}" />
+                <property name="response-body" value="@{context.Response.Body.AsString()}" />
+            </properties>
+        </log-to-eventhub>
+    </outbound>
+
+    <on-error>
+        <!-- Log errors to Application Insights or Azure Monitor -->
+        <log-to-eventhub logger-id="application-insights-logger">
+            <properties>
+                <property name="error-message" value="@{context.LastError.Message}" />
+                <property name="error-details" value="@{context.LastError.Details}" />
+                <property name="status-code" value="@(context.Response.StatusCode)" />
+            </properties>
+        </log-to-eventhub>
+    </on-error>
+</policies>
