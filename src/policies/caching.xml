@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-policy>
+    <!-- Caching Policy -->
+    <cache-lookup vary-by-developer="false" />
+    <cache-store duration="300" />
+</api-policy>
