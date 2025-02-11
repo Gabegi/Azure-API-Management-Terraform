@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-policy>
+    <log-to-eventhub logger-id="eventhub-logger">
+        <message>@{context.Request.Url}</message>
+    </log-to-eventhub>
+</api-policy>

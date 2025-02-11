@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-policy>
+    <!-- Routing: Direct traffic to different backend services dynamically -->
+    <choose>
+        <when condition="@{context.Request.Url.Contains('/service1')}">
+            <backend>
+                <base-url>https://service1.backend.com</base-url>
+            </backend>
+        </when>
+        <when condition="@{context.Request.Url.Contains('/service2')}">
+            <backend>
+                <base-url>https://service2.backend.com</base-url>
+            </backend>
+        </when>
+        <otherwise>
+            <backend>
+                <base-url>https://default.backend.com</base-url>
+            </backend>
+        </otherwise>
+    </choose>
+</api-policy>
