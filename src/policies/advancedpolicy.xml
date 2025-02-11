@@ -1,0 +1,21 @@
+// Accessing HTTP Headers
+@{context.Request.Headers.GetValueOrDefault("Authorization")}
+
+// Retrieving Query Parameters
+@{context.Request.Url.Query.GetValueOrDefault("userId")}
+
+// Generating a Custom Response Header
+<set-header name="X-Custom-Header" exists-action="override">
+    <value>@{context.Request.Id}</value>
+</set-header>
+
+// Checking Request Method
+<choose>
+    <when condition="@{context.Request.Method == 'GET'}">
+        <return-response>
+            <status-code>200</status-code>
+            <reason-phrase>OK</reason-phrase>
+        </return-response>
+    </when>
+    </choose>
+</api-policy>
