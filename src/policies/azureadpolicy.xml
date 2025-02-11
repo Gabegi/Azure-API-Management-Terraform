@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api-policy>
+    <!-- Authentication and Authorization Policy -->
+    <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized">
+        <openid-config url="https://login.microsoftonline.com/{tenant-id}/v2.0/.well-known/openid-configuration" />
+        <required-claims>
+            <claim name="aud">your-audience-value</claim>
+        </required-claims>
+    </validate-jwt>
+</api-policy>
